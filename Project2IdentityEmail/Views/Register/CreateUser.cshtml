@@ -27,6 +27,9 @@
     <br />
 
     <label>Şifreniz</label>
-    <input type="text" asp-for="Password" class="form-control" />
+    <input type="text" required asp-for="Password" class="form-control" />
+    <br />
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <button class="btn btn-info">Kayıt Ol</button>
 </div>
 </form>

@@ -11,5 +11,7 @@ namespace Project2IdentityEmail.Context
         {
             optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Initial Catalog=Project2EmailDb;Integrated Security=True;TrustServerCertificate=True");
         }
+
+        public DbSet<Message> Messages { get; set; }
     }
 }

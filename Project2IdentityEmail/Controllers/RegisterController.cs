@@ -12,7 +12,7 @@ namespace Project2IdentityEmail.Controllers
         public RegisterController(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
-        }   
+        }
 
         [HttpGet]
         public IActionResult CreateUser()
@@ -30,8 +30,23 @@ namespace Project2IdentityEmail.Controllers
                 UserName = createUserRegisterDto.Username,
                 Email = createUserRegisterDto.Email
             };
-            await _userManager.CreateAsync(appUser, createUserRegisterDto.Password);
-            return RedirectToAction("UserList");
+
+            var result = await _userManager.CreateAsync(appUser, createUserRegisterDto.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+
+
+                return View(createUserRegisterDto);
+            }
+
+
+            return RedirectToAction("UserLogin", "Login");
         }
+
     }
 }
