@@ -1,0 +1,354 @@
+@model Message
+
+@{
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/UserLayout/_UserLayout.cshtml";
+}
+
+<style>
+    .message-detail-page {
+        padding: 25px;
+    }
+
+    .message-detail-card {
+        background: #fff;
+        border: 1px solid #eeeaf4;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(45, 35, 80, .06);
+    }
+
+    .message-detail-header {
+        min-height: 72px;
+        padding: 15px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        border-bottom: 1px solid #eeeaf4;
+    }
+
+    .message-detail-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+        .message-detail-title h4 {
+            margin: 0;
+            color: #29263d;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+    .message-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .message-action {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e6e0ef;
+        border-radius: 10px;
+        background: #fff;
+        color: #68627a;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+        .message-action:hover {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg,#e83ec9,#9859ef);
+        }
+
+    .message-sender {
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: #fbf8ff;
+        border-bottom: 1px solid #eeeaf4;
+    }
+
+    .sender-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+    }
+
+    .sender-avatar {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        background: linear-gradient(135deg,#e83ec9,#9859ef);
+    }
+
+    .sender-info {
+        min-width: 0;
+    }
+
+    .sender-email {
+        margin: 0;
+        color: #29263d;
+        font-size: 15px;
+        font-weight: 700;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sender-label {
+        margin: 4px 0 0;
+        color: #9993a7;
+        font-size: 12px;
+    }
+
+    .message-date {
+        flex-shrink: 0;
+        color: #8d879c;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .message-body {
+        padding: 28px 30px;
+    }
+
+    .message-subject {
+        margin: 0 0 18px;
+        color: #29263d;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+
+    .message-recipient {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 25px;
+        padding: 10px 14px;
+        border-radius: 9px;
+        background: #faf7fd;
+        color: #777187;
+        font-size: 13px;
+        word-break: break-word;
+    }
+
+        .message-recipient strong {
+            color: #403b55;
+        }
+
+    .message-text {
+        min-height: 220px;
+        color: #5f5a70;
+        font-size: 15px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .message-footer {
+        padding: 18px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        border-top: 1px solid #eeeaf4;
+    }
+
+    .message-send-date {
+        color: #9691a2;
+        font-size: 13px;
+    }
+
+    .reply-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 22px;
+        border-radius: 10px;
+        color: #fff !important;
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none !important;
+        white-space: nowrap;
+        transition: .2s;
+    }
+
+        .reply-button:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(152,89,239,.2);
+        }
+
+    @@media (max-width: 767px) {
+
+        .message-detail-page {
+            padding: 15px;
+        }
+
+        .message-detail-header {
+            padding: 12px 15px;
+        }
+
+        .message-detail-title h4 {
+            font-size: 17px;
+        }
+
+        .message-action {
+            width: 38px;
+            height: 38px;
+        }
+
+        .message-sender {
+            padding: 16px;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .message-date {
+            margin-left: 62px;
+        }
+
+        .message-body {
+            padding: 22px 16px;
+        }
+
+        .message-subject {
+            font-size: 20px;
+        }
+
+        .message-footer {
+            padding: 16px;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-wrapper">
+
+    <div class="message-detail-page">
+
+        <div class="message-detail-card">
+
+            <div class="message-detail-header">
+
+                <div class="message-detail-title">
+
+                    <a asp-controller="Message"
+                       asp-action="Inbox"
+                       class="message-action"
+                       title="Gelen Kutusuna Dön">
+                        <i data-feather="arrow-left"></i>
+                    </a>
+
+                    <h4>Mesaj Detayı</h4>
+
+                </div>
+
+                <div class="message-actions">
+
+                    <button type="button" class="message-action" title="Yanıtla">
+                        <i data-feather="corner-up-left"></i>
+                    </button>
+
+                    <button type="button" class="message-action" title="Spam">
+                        <i data-feather="alert-circle"></i>
+                    </button>
+
+                    <button type="button" class="message-action" title="Sil">
+                        <i data-feather="trash-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="message-sender">
+
+                <div class="sender-left">
+
+                    <div class="sender-avatar">
+                        @(string.IsNullOrWhiteSpace(Model.SenderEmail)
+                            ? "?"
+                            : Model.SenderEmail.Substring(0, 1).ToUpper())
+                    </div>
+
+                    <div class="sender-info">
+                        <p class="sender-email">@Model.SenderEmail</p>
+                        <p class="sender-label">Gönderen</p>
+                    </div>
+
+                </div>
+
+                <div class="message-date">
+                    @Model.SendDate.ToString("dd.MM.yyyy HH:mm")
+                </div>
+
+            </div>
+
+            <div class="message-body">
+
+                <h2 class="message-subject">@Model.Subject</h2>
+
+                <div class="message-recipient">
+                    <strong>Alıcı:</strong>
+                    @Model.ReceiverEmail
+                </div>
+
+                <div class="message-text">
+                    @Model.MessageDetail
+                </div>
+
+            </div>
+
+            <div class="message-footer">
+
+                <span class="message-send-date">
+                    Gönderilme tarihi:
+                    @Model.SendDate.ToString("dd.MM.yyyy HH:mm")
+                </span>
+
+                <a href="#" class="reply-button">
+                    <i data-feather="corner-up-left"></i>
+                    Yanıtla
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof feather !== "undefined") {
+            feather.replace();
+        }
+    });
+</script>

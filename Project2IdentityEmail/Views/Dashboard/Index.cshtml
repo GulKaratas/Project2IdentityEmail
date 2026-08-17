@@ -1,0 +1,63 @@
+﻿
+@{
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UserLayout/_UserLayout.cshtml";
+}
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#" class="link">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                </div>
+                <h4 class="page-title">Dashboard</h4>
+            </div>
+            <div class="col-5 align-self-center text-right">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><i data-feather="refresh-cw"></i></li>
+                    <li class="list-inline-item"><i data-feather="settings"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  
+    <div class="container-fluid">
+       
+        <div class="row">
+            <div class="col-md-12">
+                @await Component.InvokeAsync("_MessageInfoDashboardComponents")
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-7 col-md-12">
+                @await Component.InvokeAsync("_ProfileInfoDashboardComponents")
+            </div>
+
+            <div class="col-lg-5 col-md-12">
+                @await Component.InvokeAsync("_MessageAnalizDashboardComponents")
+            </div>
+        </div>
+            
+        <div class="row">
+            <!-- column -->
+            <div class="col-md-12">
+                @await Component.InvokeAsync("_RecentEmailsDashboardComponents")
+            </div>
+        </div>
+       
+    </div>
+ 
+    <footer class="footer text-center">
+        All Rights Reserved by <a href="https://jthemes.com" target="_blank">Jthemes Studio</a>.
+    </footer>
+ 
+</div>

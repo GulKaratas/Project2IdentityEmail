@@ -1,0 +1,411 @@
+﻿@model ProfileInfoDashboardViewModel
+
+<div class="card profile-card border-0">
+
+    <!-- Üst kapak -->
+    <div class="profile-cover">
+        <div class="cover-shape shape-one"></div>
+        <div class="cover-shape shape-two"></div>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Profil başlığı -->
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="~/images/@Model.ImageUrl"
+                         alt="@Model.FullName"
+                         class="profile-image" />
+                }
+                else
+                {
+                    <div class="avatar-inner">
+                        <i data-feather="user"></i>
+                    </div>
+                }
+
+                <span class="online-dot"></span>
+            </div>
+
+            <div class="profile-name">
+                <h4>@Model.FullName</h4>
+                <span>
+                    <i data-feather="mail"></i>
+                    @Model.Email
+                </span>
+            </div>
+
+            <button class="profile-more">
+                <i data-feather="more-horizontal"></i>
+            </button>
+
+        </div>
+
+        <!-- Butonlar -->
+        <div class="profile-actions">
+
+            <a href="/Message/SendMessage/" class="profile-btn primary">
+                <i data-feather="message-circle"></i>
+                Mesaj Gönder
+            </a>
+
+            <a href="/Profile/UserProfile/" class="profile-btn secondary">
+                <i data-feather="user"></i>
+                Hakkımda
+            </a>
+
+        </div>
+
+        <!-- Profil bilgileri -->
+        <div class="profile-details">
+
+            <div class="profile-detail">
+                <div class="detail-icon purple">
+                    <i data-feather="user"></i>
+                </div>
+
+                <div>
+                    <span>Ad Soyad</span>
+                    <strong>@Model.FullName</strong>
+                </div>
+            </div>
+
+            <div class="profile-detail">
+                <div class="detail-icon pink">
+                    <i data-feather="mail"></i>
+                </div>
+
+                <div>
+                    <span>E-posta</span>
+                    <strong>@Model.Email</strong>
+                </div>
+            </div>
+
+            <div class="profile-detail">
+                <div class="detail-icon blue">
+                    <i data-feather="shield"></i>
+                </div>
+
+                <div>
+                    <span>Hesap Durumu</span>
+                    <strong>@(Model.EmailConfirmed ? "Aktif" : "Pasif")</strong>
+                </div>
+            </div>
+
+            <div class="profile-detail">
+                <div class="detail-icon green">
+                    <i data-feather="calendar"></i>
+                </div>
+
+                <div>
+                    <span>Mail Durumu</span>
+                    <strong>@(Model.EmailConfirmed ? "Onaylı" : "Onaylı Değil")</strong>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+
+    .profile-card {
+        overflow: hidden;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 15px 40px rgba(45, 35, 90, .13);
+        transition: .3s ease;
+    }
+
+        .profile-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(45, 35, 90, .18);
+        }
+
+
+    /* COVER */
+
+    .profile-cover {
+        height: 125px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient( 135deg, #ec3fd5 0%, #bd4eea 45%, #7565ed 100% );
+    }
+
+    .cover-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,.10);
+    }
+
+    .shape-one {
+        width: 180px;
+        height: 180px;
+        right: -40px;
+        top: -90px;
+    }
+
+    .shape-two {
+        width: 110px;
+        height: 110px;
+        left: 35%;
+        bottom: -70px;
+        background: rgba(255,255,255,.07);
+    }
+
+
+    /* PROFILE HEADER */
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-top: -42px;
+        padding: 0 5px;
+    }
+
+    .profile-avatar {
+        position: relative;
+        width: 86px;
+        height: 86px;
+        flex-shrink: 0;
+    }
+
+    .profile-image {
+        display: block !important;
+        width: 86px !important;
+        height: 86px !important;
+        max-width: 86px !important;
+        max-height: 86px !important;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        box-shadow: 0 8px 20px rgba(50,30,90,.18);
+    }
+
+    .avatar-inner {
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient( 145deg, #fff, #f5eaff );
+        border: 5px solid #fff;
+        box-shadow: 0 8px 20px rgba(50,30,90,.18), inset 0 2px 4px rgba(255,255,255,.8);
+        color: #a855f7;
+    }
+
+        .avatar-inner svg {
+            width: 38px;
+            height: 38px;
+        }
+
+    .online-dot {
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        right: 5px;
+        bottom: 7px;
+        background: #22c55e;
+        border: 3px solid #fff;
+        border-radius: 50%;
+    }
+
+
+    /* NAME */
+
+    .profile-name {
+        margin-left: 15px;
+        padding-top: 35px;
+    }
+
+        .profile-name h4 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #29283a;
+        }
+
+        .profile-name span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 3px;
+            font-size: 12px;
+            color: #999;
+        }
+
+            .profile-name span svg {
+                width: 13px;
+                height: 13px;
+            }
+
+
+    /* MORE */
+
+    .profile-more {
+        margin-left: auto;
+        margin-top: 34px;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        color: #999;
+        box-shadow: 0 5px 15px rgba(0,0,0,.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .profile-more svg {
+            width: 18px;
+        }
+
+
+    /* ACTION BUTTONS */
+
+    .profile-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+        margin-bottom: 20px;
+    }
+
+    .profile-btn {
+        flex: 1;
+        height: 42px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: .2s ease;
+    }
+
+        .profile-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .profile-btn.primary {
+            color: #fff;
+            background: linear-gradient( 135deg, #e946d8, #a855f7 );
+            box-shadow: 0 6px 15px rgba(190,70,220,.25);
+        }
+
+            .profile-btn.primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 9px 20px rgba(190,70,220,.32);
+            }
+
+        .profile-btn.secondary {
+            color: #8b45d9;
+            background: #f6efff;
+        }
+
+            .profile-btn.secondary:hover {
+                background: #eee2ff;
+                transform: translateY(-2px);
+            }
+
+
+    /* DETAILS */
+
+    .profile-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .profile-detail {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border-radius: 12px;
+        background: #faf9fc;
+        transition: .2s ease;
+    }
+
+        .profile-detail:hover {
+            background: #f6f0ff;
+            transform: translateY(-2px);
+        }
+
+    .detail-icon {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-right: 10px;
+    }
+
+        .detail-icon svg {
+            width: 17px;
+            height: 17px;
+        }
+
+    .purple {
+        background: #f3e8ff;
+        color: #9333ea;
+    }
+
+    .pink {
+        background: #fce7f3;
+        color: #db2777;
+    }
+
+    .blue {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .green {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .profile-detail span {
+        display: block;
+        font-size: 10px;
+        color: #999;
+        margin-bottom: 2px;
+    }
+
+    .profile-detail strong {
+        display: block;
+        font-size: 12px;
+        color: #363642;
+        font-weight: 600;
+    }
+
+
+    /* MOBILE */
+
+    @@media (max-width: 575px) {
+
+        .profile-details {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-name h4 {
+            font-size: 17px;
+        }
+
+        .profile-actions {
+            flex-direction: column;
+        }
+    }
+
+</style>

@@ -1,0 +1,188 @@
+﻿@model MessageInfoDashboardViewModel
+
+<div class="card border-0 shadow-sm message-info-card">
+    <div class="card-body p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h4 class="mb-1 font-weight-bold">Mesaj Bilgileri</h4>
+                <span class="text-muted small">Mail hesabınızın genel durumu</span>
+            </div>
+
+            <div class="message-info-icon">
+                <i data-feather="mail"></i>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Gelen Mesaj -->
+            <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                <div class="message-stat">
+                    <div class="stat-icon received">
+                        <i data-feather="inbox"></i>
+                    </div>
+
+                    <div class="stat-content">
+                        <span>Gelen Mesaj</span>
+                        <h3>@Model.ReceivedCount</h3>
+                        <small>
+                            <i data-feather="trending-up"></i>
+                            Bu ay
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gönderilen Mesaj -->
+            <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                <div class="message-stat">
+                    <div class="stat-icon sent">
+                        <i data-feather="send"></i>
+                    </div>
+
+                    <div class="stat-content">
+                        <span>Gönderilen Mesaj</span>
+                        <h3>@Model.SentCount</h3>
+                        <small>
+                            <i data-feather="trending-up"></i>
+                            Bu ay
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Son Gelen Mesaj -->
+            <div class="col-lg-3 col-md-6">
+                <div class="message-stat">
+                    <div class="stat-icon last-received">
+                        <i data-feather="clock"></i>
+                    </div>
+
+                    <div class="stat-content">
+                        <span>Son Gelen Mesaj</span>
+                        <h3>@Model.LastReceivedDate?.ToString("HH:mm")</h3>
+                        <small>Bugün</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Son Gönderilen Mesaj -->
+            <div class="col-lg-3 col-md-6">
+                <div class="message-stat">
+                    <div class="stat-icon last-sent">
+                        <i data-feather="check-circle"></i>
+                    </div>
+
+                    <div class="stat-content">
+                        <span>Son Gönderilen</span>
+                        <h3>@Model.LastSentDate?.ToString("HH:mm")</h3>
+                        <small>Bugün</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .message-info-card {
+        border-radius: 16px;
+        background: #fff;
+    }
+
+    .message-info-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #e34bdc, #a855f7);
+        color: #fff;
+    }
+
+        .message-info-icon svg {
+            width: 21px;
+            height: 21px;
+        }
+
+    .message-stat {
+        display: flex;
+        align-items: center;
+        min-height: 90px;
+        padding: 12px;
+        border-radius: 12px;
+        transition: all .2s ease;
+    }
+
+        .message-stat:hover {
+            background: #faf7fc;
+            transform: translateY(-2px);
+        }
+
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 14px;
+    }
+
+        .stat-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    .received {
+        background: #f3e8ff;
+        color: #9333ea;
+    }
+
+    .sent {
+        background: #fce7f3;
+        color: #db2777;
+    }
+
+    .last-received {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .last-sent {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .stat-content span {
+        display: block;
+        color: #8b8b8b;
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .stat-content h3 {
+        margin: 0;
+        font-size: 23px;
+        font-weight: 600;
+        color: #343434;
+    }
+
+    .stat-content small {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #999;
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+        .stat-content small svg {
+            width: 12px;
+            height: 12px;
+        }
+</style>

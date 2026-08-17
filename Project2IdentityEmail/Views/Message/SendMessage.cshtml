@@ -1,0 +1,360 @@
+﻿@model Project2IdentityEmail.Entities.Message
+
+@{
+    ViewData["Title"] = "Yeni Mesaj";
+    Layout = "~/Views/UserLayout/_UserLayout.cshtml";
+}
+
+<style>
+    .compose-page {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 100px 30px 50px;
+        box-sizing: border-box;
+    }
+
+    .compose-card {
+        width: 100%;
+        max-width: 650px;
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(40, 40, 80, .07);
+    }
+
+    .compose-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: #fbeafa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .compose-icon i {
+            font-size: 30px;
+            color: #e344c7;
+        }
+
+    .compose-card h3 {
+        margin-bottom: 8px;
+        color: #292943;
+        font-weight: 700;
+    }
+
+    .compose-card p {
+        color: #999;
+        margin-bottom: 25px;
+    }
+
+    .compose-btn {
+        background: #e344c7;
+        color: #fff;
+        border: 0;
+        border-radius: 9px;
+        padding: 11px 25px;
+        font-weight: 600;
+    }
+
+        .compose-btn:hover {
+            background: #d735b9;
+            color: #fff;
+        }
+
+    .compose-modal {
+        width: 100%;
+        max-width: 700px;
+        margin: 70px auto 30px;
+    }
+
+        .compose-modal .modal-content {
+            border: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .12);
+        }
+
+        .compose-modal .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .compose-modal .modal-title {
+            color: #292943;
+            font-weight: 700;
+        }
+
+        .compose-modal .modal-body {
+            padding: 25px;
+        }
+
+        .compose-modal .form-group {
+            margin-bottom: 18px;
+        }
+
+        .compose-modal label {
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .compose-modal .form-control {
+            min-height: 44px;
+            border: 1px solid #e4e0e8;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        .compose-modal textarea.form-control {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .compose-modal .form-control:focus {
+            border-color: #e344c7;
+            box-shadow: 0 0 0 2px rgba(227, 68, 199, .08);
+        }
+
+        .compose-modal .modal-footer {
+            background: #faf9fc;
+            border-top: 1px solid #eee;
+            padding: 15px 25px;
+        }
+
+    .send-btn {
+        background: #e344c7;
+        color: #fff;
+        border: 0;
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-weight: 600;
+    }
+
+        .send-btn:hover {
+            background: #d735b9;
+            color: #fff;
+        }
+
+    @@media (max-width: 768px) {
+
+        .compose-page {
+            padding: 60px 15px 30px;
+        }
+
+        .compose-card {
+            padding: 30px 20px;
+        }
+
+        .compose-modal {
+            margin: 30px 10px;
+            max-width: none;
+        }
+    }
+</style>
+
+
+<!-- YENİ MESAJ ALANI -->
+<div class="compose-page">
+
+    <div class="compose-card">
+
+        <div class="compose-icon">
+            <i class="far fa-paper-plane"></i>
+        </div>
+
+        <h3>Yeni Mesaj</h3>
+
+        <p>
+            Yeni bir e-posta oluşturmak için aşağıdaki butona tıklayın.
+        </p>
+
+        <button type="button"
+                class="btn compose-btn"
+                data-toggle="modal"
+                data-target="#sendMessageModal">
+
+            <i class="far fa-edit mr-1"></i>
+            Yeni Mesaj
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MESAJ MODALI -->
+<div class="modal fade"
+     id="sendMessageModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="sendMessageModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog compose-modal"
+         role="document">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+
+                <div>
+                    <h5 class="modal-title"
+                        id="sendMessageModalLabel">
+
+                        <i class="far fa-edit mr-2"
+                           style="color:#e344c7;"></i>
+
+                        Yeni Mesaj
+
+                    </h5>
+
+                    <small class="text-muted">
+                        Yeni bir mesaj oluşturun ve gönderin.
+                    </small>
+                </div>
+
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+
+                    <span>&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <!-- FORM -->
+            <form asp-controller="Message"
+                  asp-action="SendMessage"
+                  method="post">
+
+                <div class="modal-body">
+
+                    <!-- ALICI -->
+                    <div class="form-group">
+
+                        <label>
+                            Alıcı
+                        </label>
+
+                        <input asp-for="ReceiverEmail"
+                               type="email"
+                               class="form-control"
+                               placeholder="Alıcının e-posta adresi"
+                               required />
+
+                    </div>
+
+
+                    <!-- KONU -->
+                    <div class="form-group">
+
+                        <label>
+                            Konu
+                        </label>
+
+                        <input asp-for="Subject"
+                               type="text"
+                               class="form-control"
+                               placeholder="Mesaj konusu"
+                               required />
+
+                    </div>
+
+
+                    <!-- KATEGORİ -->
+                    <div class="form-group">
+
+                        <label>
+                            Kategori
+                        </label>
+
+                        <select asp-for="Category"
+                                class="form-control"
+                                required>
+
+                            <option value="">
+                                Kategori seçin
+                            </option>
+
+                            <option value="İş">
+                                İş
+                            </option>
+
+                            <option value="İşletme">
+                                İşletme
+                            </option>
+
+                            <option value="Aile">
+                                Aile
+                            </option>
+
+                            <option value="Arkadaşlar">
+                                Arkadaşlar
+                            </option>
+
+                            <option value="Okul">
+                                Okul
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MESAJ -->
+                    <div class="form-group mb-0">
+
+                        <label>
+                            Mesaj
+                        </label>
+
+                        <textarea asp-for="MessageDetail"
+                                  id="summernote"
+                                  class="form-control"
+                                  rows="6"
+                                  placeholder="Mesajınızı yazın..."
+                                  required></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-light"
+                            data-dismiss="modal">
+
+                        Vazgeç
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn send-btn">
+
+                        <i class="far fa-paper-plane mr-1"></i>
+                        Gönder
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

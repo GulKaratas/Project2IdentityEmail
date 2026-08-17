@@ -1,0 +1,411 @@
+@model Project2IdentityEmail.Dtos.LoginUserDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Rose Mail - Giriş Yap</title>
+
+    <link rel="icon" type="image/png"
+          href="~/mendy-admin/package/assets/images/favicon.png" />
+
+    <link href="~/mendy-admin/package/dist/css/style.min.css" rel="stylesheet" />
+
+    <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: #f7f5fb;
+            }
+
+            .login-page {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 30px 20px;
+            }
+
+            .login-card {
+                width: 100%;
+                max-width: 1000px;
+                min-height: 600px;
+                display: grid;
+                grid-template-columns: 45% 55%;
+                background: #fff;
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(52,43,100,.12);
+            }
+
+            /* SOL */
+
+            .login-info {
+                padding: 55px 45px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                background: linear-gradient(145deg,#e83ec9,#8c5cf5);
+            }
+
+                .login-info::before,
+                .login-info::after {
+                    content: "";
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,.10);
+                }
+
+                .login-info::before {
+                    width: 250px;
+                    height: 250px;
+                    top: -100px;
+                    right: -80px;
+                }
+
+                .login-info::after {
+                    width: 190px;
+                    height: 190px;
+                    bottom: -80px;
+                    left: -80px;
+                }
+
+            .brand {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 75px;
+                font-size: 23px;
+                font-weight: 700;
+            }
+
+                .brand img {
+                    width: 38px;
+                }
+
+            .login-info h1,
+            .login-info p,
+            .features {
+                position: relative;
+                z-index: 1;
+            }
+
+            .login-info h1 {
+                font-size: 34px;
+                line-height: 1.2;
+                margin-bottom: 18px;
+            }
+
+            .login-info p {
+                color: rgba(255,255,255,.85);
+                line-height: 1.7;
+                margin-bottom: 35px;
+            }
+
+            .feature {
+                display: flex;
+                gap: 14px;
+                margin-bottom: 22px;
+            }
+
+            .feature-icon {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: rgba(255,255,255,.18);
+            }
+
+            .feature strong {
+                display: block;
+                margin-bottom: 3px;
+            }
+
+            .feature span {
+                font-size: 13px;
+                color: rgba(255,255,255,.72);
+            }
+
+            /* SAĞ */
+
+            .login-form {
+                padding: 55px 65px;
+                display: flex;
+                align-items: center;
+            }
+
+            .form-content {
+                width: 100%;
+                max-width: 430px;
+                margin: auto;
+            }
+
+            .form-header {
+                margin-bottom: 30px;
+            }
+
+                .form-header h2 {
+                    color: #29263d;
+                    font-size: 29px;
+                    font-weight: 700;
+                    margin-bottom: 8px;
+                }
+
+                .form-header p {
+                    color: #9290a1;
+                    margin: 0;
+                }
+
+            .input-group-custom {
+                margin-bottom: 20px;
+            }
+
+                .input-group-custom label {
+                    display: block;
+                    color: #4c4960;
+                    font-size: 13px;
+                    font-weight: 600;
+                    margin-bottom: 7px;
+                }
+
+                .input-group-custom input {
+                    width: 100%;
+                    height: 50px;
+                    padding: 0 15px;
+                    border: 1px solid #e8e5ef;
+                    border-radius: 10px;
+                    outline: none;
+                    transition: .2s;
+                    box-sizing: border-box;
+                }
+
+                    .input-group-custom input:focus {
+                        border-color: #b45ce9;
+                        box-shadow: 0 0 0 3px rgba(180,92,233,.10);
+                    }
+
+            .login-options {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: 5px 0 25px;
+                font-size: 13px;
+            }
+
+                .login-options label {
+                    color: #888597;
+                }
+
+                .login-options a {
+                    color: #974ee9;
+                    text-decoration: none;
+                    font-weight: 600;
+                }
+
+            .login-btn {
+                width: 100%;
+                height: 50px;
+                border: 0;
+                border-radius: 10px;
+                color: #fff;
+                font-weight: 600;
+                background: linear-gradient(90deg,#e83ec9,#9859ef);
+                transition: .2s;
+            }
+
+                .login-btn:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 20px rgba(178,76,220,.25);
+                }
+
+            .register-link {
+                text-align: center;
+                margin-top: 25px;
+                color: #9290a1;
+                font-size: 14px;
+            }
+
+                .register-link a {
+                    color: #974ee9;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+            .validation {
+                color: #dc3545;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+
+            @@media (max-width: 768px) {
+                .login-card {
+                    grid-template-columns: 1fr;
+                }
+
+                .login-info {
+                    padding: 35px;
+                }
+
+                .brand {
+                    margin-bottom: 40px;
+                }
+
+                .login-info h1 {
+                    font-size: 28px;
+                }
+
+                .login-form {
+                    padding: 40px 30px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="login-card">
+
+            <!-- SOL -->
+            <section class="login-info">
+
+                <div class="brand">
+                    <img src="~/mendy-admin/package/assets/images/logo-icon.png"
+                         alt="Rose Mail" />
+
+                    <span>Rose Mail</span>
+                </div>
+
+                <h1>Mesajlarınıza<br />yeniden hoş geldiniz.</h1>
+
+                <p>
+                    Hesabınıza giriş yapın ve e-postalarınızı
+                    güvenli ve kolay bir şekilde yönetmeye devam edin.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="ti-email"></i>
+                        </div>
+
+                        <div>
+                            <strong>Mesajlarınızı yönetin</strong>
+                            <span>Gelen ve gönderilen maillerinize kolayca ulaşın.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="ti-lock"></i>
+                        </div>
+
+                        <div>
+                            <strong>Güvenli giriş</strong>
+                            <span>Hesabınız güvenli doğrulama sistemiyle korunur.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="ti-bar-chart"></i>
+                        </div>
+
+                        <div>
+                            <strong>Akıllı analiz</strong>
+                            <span>Mesaj aktivitelerinizi yapay zeka ile analiz edin.</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SAĞ -->
+            <section class="login-form">
+
+                <div class="form-content">
+
+                    <div class="form-header">
+                        <h2>Giriş Yap</h2>
+                        <p>Hesabınıza devam etmek için giriş yapın.</p>
+                    </div>
+
+                    <form method="post"
+                          asp-controller="Login"
+                          asp-action="UserLogin">
+
+                        <div class="validation"
+                             asp-validation-summary="ModelOnly">
+                        </div>
+
+                        <div class="input-group-custom">
+                            <label>Kullanıcı Adı</label>
+
+                            <input asp-for="Username"
+                                   type="text"
+                                   placeholder="Kullanıcı adınız" />
+                        </div>
+
+                        <div class="input-group-custom">
+                            <label>Şifre</label>
+
+                            <input asp-for="Password"
+                                   type="password"
+                                   placeholder="••••••••" />
+                        </div>
+
+                        <div class="login-options">
+
+                            <label>
+                                <input type="checkbox" />
+                                Beni hatırla
+                            </label>
+
+                            <a href="#">
+                                Şifremi unuttum
+                            </a>
+
+                        </div>
+
+                        <button type="submit" class="login-btn">
+                            Giriş Yap
+                        </button>
+
+                    </form>
+
+                    <div class="register-link">
+                        Hesabınız yok mu?
+                        <a asp-controller="Register"
+                           asp-action="CreateUser">
+                            Kayıt Ol
+                        </a>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <script src="~/mendy-admin/package/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/mendy-admin/package/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

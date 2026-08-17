@@ -1,0 +1,489 @@
+﻿@model List<Message>
+
+<div class="card recent-mails-card border-0">
+
+    <div class="card-body">
+
+        <!-- Başlık -->
+        <div class="recent-mails-header">
+
+            <div>
+                <h4 class="card-title mb-1">
+                    Son Mesajlar
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Son gönderilen ve alınan mesajlarınız
+                </p>
+            </div>
+
+            <a href="/Message/Inbox/" class="view-all-btn">
+                Tümünü Gör
+                <i data-feather="arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- Filtreler -->
+        <div class="mail-filters">
+
+            <div class="mail-search">
+                <i data-feather="search"></i>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Mesajlarda ara...">
+            </div>
+
+            <select class="mail-select">
+                <option selected>Tüm Mesajlar</option>
+                <option>Gelenler</option>
+                <option>Gönderilenler</option>
+                <option>Okunmamış</option>
+            </select>
+
+        </div>
+
+
+        <!-- Tablo -->
+        <div class="table-responsive">
+
+            <table class="table recent-mails-table">
+
+                <thead>
+                    <tr>
+                        <th>Gönderen</th>
+                        <th>Konu</th>
+                        <th>Kategori</th>
+                        <th>Durum</th>
+                        <th>Tarih</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var message in Model)
+                    {
+                        var isReceived = message.ReceiverEmail == User.Identity.Name;
+
+                        <tr>
+
+                            <td>
+                                <div class="mail-user">
+
+                                    <div class="mail-avatar purple-avatar">
+                                        @(isReceived
+                                            ? message.SenderEmail.Substring(0, 1).ToUpper()
+                                            : message.ReceiverEmail.Substring(0, 1).ToUpper())
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            @(isReceived
+                                                ? message.SenderEmail
+                                                : message.ReceiverEmail)
+                                        </strong>
+
+                                        <span>
+                                            @(isReceived ? "Gelen mesaj" : "Gönderilen mesaj")
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="mail-subject">
+
+                                    @message.Subject
+
+                                    <span>
+                                        @message.MessageDetail
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td>
+
+                                <span class="mail-category work">
+                                    @message.Category
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                @if (message.IsStatus)
+                                {
+                                    <span class="mail-status read">
+                                        Okundu
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="mail-status unread">
+                                        Okunmadı
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+                                <span class="mail-date">
+                                    @message.SendDate.ToString("dd.MM.yyyy HH:mm")
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="mail-more">
+                                    <i data-feather="more-vertical"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+<style>
+
+    /* CARD */
+
+    .recent-mails-card {
+        border-radius: 18px;
+        box-shadow: 0 12px 35px rgba(52, 42, 100, .10);
+        overflow: hidden;
+    }
+
+
+    /* HEADER */
+
+    .recent-mails-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
+
+        .recent-mails-header h4 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #303044;
+        }
+
+        .recent-mails-header p {
+            font-size: 12px;
+        }
+
+    .view-all-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 13px;
+        border-radius: 9px;
+        background: #f6efff;
+        color: #9148d8;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: .2s;
+    }
+
+        .view-all-btn:hover {
+            background: #eee2ff;
+            transform: translateX(2px);
+        }
+
+        .view-all-btn svg {
+            width: 14px;
+        }
+
+
+    /* FILTERS */
+
+    .mail-filters {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .mail-search {
+        position: relative;
+        width: 280px;
+    }
+
+        .mail-search svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            color: #aaa;
+        }
+
+        .mail-search input {
+            height: 40px;
+            padding-left: 38px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            font-size: 12px;
+            box-shadow: none;
+        }
+
+            .mail-search input:focus {
+                border-color: #c084fc;
+            }
+
+    .mail-select {
+        height: 40px;
+        min-width: 150px;
+        padding: 0 12px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        color: #666;
+        font-size: 12px;
+        background: #fff;
+    }
+
+
+    /* TABLE */
+
+    .recent-mails-table {
+        margin-bottom: 0;
+    }
+
+        .recent-mails-table thead th {
+            border: 0;
+            padding: 12px 15px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .recent-mails-table tbody tr {
+            border-top: 1px solid #f3f1f6;
+            transition: .2s;
+        }
+
+            .recent-mails-table tbody tr:hover {
+                background: #faf8ff;
+            }
+
+        .recent-mails-table tbody td {
+            padding: 14px 15px;
+            vertical-align: middle;
+            border: 0;
+        }
+
+
+    /* USER */
+
+    .mail-user {
+        display: flex;
+        align-items: center;
+        min-width: 190px;
+    }
+
+    .mail-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .purple-avatar {
+        background: #f1e7ff;
+        color: #9347db;
+    }
+
+    .pink-avatar {
+        background: #fce7f3;
+        color: #db2777;
+    }
+
+    .blue-avatar {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .orange-avatar {
+        background: #ffedd5;
+        color: #ea580c;
+    }
+
+    .green-avatar {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .mail-user strong {
+        display: block;
+        font-size: 12px;
+        color: #353544;
+    }
+
+    .mail-user span {
+        display: block;
+        margin-top: 2px;
+        font-size: 10px;
+        color: #aaa;
+    }
+
+
+    /* SUBJECT */
+
+    .mail-subject {
+        min-width: 180px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #363642;
+    }
+
+        .mail-subject span {
+            display: block;
+            margin-top: 3px;
+            font-size: 10px;
+            font-weight: 400;
+            color: #aaa;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 220px;
+        }
+
+
+    /* CATEGORY */
+
+    .mail-category {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+        .mail-category.work {
+            background: #f1e7ff;
+            color: #9148d8;
+        }
+
+        .mail-category.personal {
+            background: #fce7f3;
+            color: #db2777;
+        }
+
+        .mail-category.social {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+
+    /* STATUS */
+
+    .mail-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+        .mail-status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .mail-status.read {
+            background: #ecfdf5;
+            color: #16a34a;
+        }
+
+            .mail-status.read::before {
+                background: #22c55e;
+            }
+
+        .mail-status.unread {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+            .mail-status.unread::before {
+                background: #f97316;
+            }
+
+
+    /* DATE */
+
+    .mail-date {
+        white-space: nowrap;
+        font-size: 11px;
+        color: #888;
+    }
+
+
+    /* MORE */
+
+    .mail-more {
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: #aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .mail-more:hover {
+            background: #f4edff;
+            color: #9148d8;
+        }
+
+        .mail-more svg {
+            width: 16px;
+        }
+
+
+    /* MOBILE */
+
+    @@media (max-width: 767px) {
+
+        .recent-mails-header {
+            align-items: flex-start;
+        }
+
+        .mail-filters {
+            flex-direction: column;
+        }
+
+        .mail-search {
+            width: 100%;
+        }
+
+        .mail-select {
+            width: 100%;
+        }
+    }
+
+</style>

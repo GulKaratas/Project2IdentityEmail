@@ -1,0 +1,284 @@
+﻿@model Project2IdentityEmail.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Profil Ayarları";
+    Layout = "~/Views/UserLayout/_UserLayout.cshtml";
+
+    var avatarUrl = string.IsNullOrWhiteSpace(Model.Profile.ImageUrl)
+        ? Url.Content("~/mendy-admin/package/assets/images/users/1.jpg")
+        : Url.Content($"~/images/{Model.Profile.ImageUrl}");
+
+    var displayName = string.IsNullOrWhiteSpace(Model.FullName) ? Model.UserName : Model.FullName;
+}
+
+<link rel="stylesheet" href="~/css/profile.css" />
+
+<div class="container-fluid profile-page">
+    <div class="profile-shell">
+
+        <header class="profile-topbar pp-reveal">
+            <h1 class="profile-title">Profil Ayarları</h1>
+            <p class="profile-subtitle">Kişisel bilgilerinizi, güvenlik ve hesap tercihlerinizi yönetin.</p>
+        </header>
+
+        @if (TempData["ProfileSuccess"] is string profileSuccess)
+        {
+            <div class="profile-flash profile-flash-success pp-reveal" role="status">
+                <i data-feather="check-circle"></i>
+                <span>@profileSuccess</span>
+            </div>
+        }
+
+        @if (TempData["PasswordSuccess"] is string passwordSuccess)
+        {
+            <div class="profile-flash profile-flash-success pp-reveal" role="status">
+                <i data-feather="shield"></i>
+                <span>@passwordSuccess</span>
+            </div>
+        }
+
+        <form asp-action="UserProfile" method="post" enctype="multipart/form-data">
+
+            <section class="profile-card profile-hero pp-reveal pp-delay-1">
+                <div class="profile-hero-body">
+                    <input asp-for="Profile.Image" class="profile-avatar-input" accept="image/*" data-avatar-input>
+                    <label class="profile-avatar" for="@Html.IdFor(m => m.Profile.Image)">
+                        <img src="@avatarUrl" alt="Profil fotoğrafı" class="profile-avatar-img" data-avatar-preview>
+                        <span class="profile-avatar-overlay">
+                            <i data-feather="camera"></i>
+                            Fotoğrafı Değiştir
+                        </span>
+                    </label>
+
+                    <div class="profile-hero-meta">
+                        <h2 class="profile-hero-name">@displayName</h2>
+                        <p class="profile-hero-mail">
+                            <i data-feather="mail"></i>
+                            @Model.Profile.Email
+                        </p>
+                        @if (Model.IsLockedOut)
+                        {
+                            <span class="profile-badge profile-badge-muted"><span class="profile-dot"></span> Kısıtlı hesap</span>
+                        }
+                        else
+                        {
+                            <span class="profile-badge profile-badge-success"><span class="profile-dot"></span> Aktif hesap</span>
+                        }
+                        <span asp-validation-for="Profile.Image" class="profile-error"></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="profile-card pp-reveal pp-delay-2">
+                <div class="profile-card-head">
+                    <span class="profile-card-icon"><i data-feather="user"></i></span>
+                    <div>
+                        <h2 class="profile-card-title">Kişisel Bilgiler</h2>
+                        <p class="profile-card-subtitle">Profil bilgilerinizi güncelleyin.</p>
+                    </div>
+                </div>
+
+                <div class="profile-card-body">
+                    @if (Model.ProfileErrors.Any())
+                    {
+                        <ul class="profile-flash-error">
+                            @foreach (var error in Model.ProfileErrors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6 profile-field">
+                            <label asp-for="Profile.Name" class="profile-label"></label>
+                            <div class="profile-input">
+                                <input asp-for="Profile.Name" class="form-control" placeholder="Adınız" autocomplete="given-name">
+                                <i data-feather="user" class="profile-input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Profile.Name" class="profile-error"></span>
+                        </div>
+
+                        <div class="col-md-6 profile-field">
+                            <label asp-for="Profile.Surname" class="profile-label"></label>
+                            <div class="profile-input">
+                                <input asp-for="Profile.Surname" class="form-control" placeholder="Soyadınız" autocomplete="family-name">
+                                <i data-feather="user" class="profile-input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Profile.Surname" class="profile-error"></span>
+                        </div>
+
+                        <div class="col-md-6 profile-field">
+                            <label asp-for="Profile.Email" class="profile-label"></label>
+                            <div class="profile-input">
+                                <input asp-for="Profile.Email" class="form-control" placeholder="ornek@mail.com" autocomplete="email">
+                                <i data-feather="at-sign" class="profile-input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Profile.Email" class="profile-error"></span>
+                        </div>
+
+                        <div class="col-md-6 profile-field">
+                            <label asp-for="Profile.Phone" class="profile-label"></label>
+                            <div class="profile-input">
+                                <input asp-for="Profile.Phone" class="form-control" placeholder="+90 5xx xxx xx xx" autocomplete="tel">
+                                <i data-feather="phone" class="profile-input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Profile.Phone" class="profile-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card-foot">
+                    <button type="submit" class="btn profile-btn profile-btn-primary">
+                        <i data-feather="check"></i>
+                        Değişiklikleri Kaydet
+                    </button>
+                    <a asp-action="UserProfile" class="btn profile-btn profile-btn-ghost">İptal</a>
+                </div>
+            </section>
+        </form>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <section class="profile-card pp-reveal pp-delay-3">
+                    <div class="profile-card-head">
+                        <span class="profile-card-icon"><i data-feather="shield"></i></span>
+                        <div>
+                            <h2 class="profile-card-title">Güvenlik</h2>
+                            <p class="profile-card-subtitle">Şifre ve hesap güvenliği ayarlarınızı yönetin.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-card-body profile-card-body-last">
+                        @if (Model.PasswordErrors.Any())
+                        {
+                            <ul class="profile-flash-error">
+                                @foreach (var error in Model.PasswordErrors)
+                                {
+                                    <li>@error</li>
+                                }
+                            </ul>
+                        }
+
+                        <form asp-action="ChangePassword" method="post">
+                            <div class="profile-field">
+                                <label asp-for="Password.CurrentPassword" class="profile-label"></label>
+                                <div class="profile-input profile-input-password">
+                                    <input asp-for="Password.CurrentPassword" class="form-control" placeholder="••••••••" autocomplete="current-password">
+                                    <i data-feather="lock" class="profile-input-icon"></i>
+                                    <button type="button" class="profile-eye" aria-label="Şifreyi göster" data-password-toggle>
+                                        <i data-feather="eye" class="profile-eye-on"></i>
+                                        <i data-feather="eye-off" class="profile-eye-off"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="Password.CurrentPassword" class="profile-error"></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 profile-field">
+                                    <label asp-for="Password.NewPassword" class="profile-label"></label>
+                                    <div class="profile-input profile-input-password">
+                                        <input asp-for="Password.NewPassword" class="form-control" placeholder="••••••••" autocomplete="new-password">
+                                        <i data-feather="key" class="profile-input-icon"></i>
+                                        <button type="button" class="profile-eye" aria-label="Şifreyi göster" data-password-toggle>
+                                            <i data-feather="eye" class="profile-eye-on"></i>
+                                            <i data-feather="eye-off" class="profile-eye-off"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password.NewPassword" class="profile-error"></span>
+                                </div>
+
+                                <div class="col-md-6 profile-field">
+                                    <label asp-for="Password.ConfirmNewPassword" class="profile-label"></label>
+                                    <div class="profile-input profile-input-password">
+                                        <input asp-for="Password.ConfirmNewPassword" class="form-control" placeholder="••••••••" autocomplete="new-password">
+                                        <i data-feather="key" class="profile-input-icon"></i>
+                                        <button type="button" class="profile-eye" aria-label="Şifreyi göster" data-password-toggle>
+                                            <i data-feather="eye" class="profile-eye-on"></i>
+                                            <i data-feather="eye-off" class="profile-eye-off"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password.ConfirmNewPassword" class="profile-error"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn profile-btn profile-btn-primary">
+                                <i data-feather="lock"></i>
+                                Şifreyi Güncelle
+                            </button>
+                        </form>
+
+                        <div class="profile-switch">
+                            <span class="profile-switch-text">
+                                <label class="profile-switch-title" for="twoFactorPreference">İki Faktörlü Doğrulama</label>
+                                <span class="profile-switch-desc">Ekstra hesap güvenliği sağlar.</span>
+                            </span>
+                            <input type="checkbox" class="profile-switch-input" id="twoFactorPreference" role="switch" data-preference="two-factor">
+                            <label class="profile-switch-ui" for="twoFactorPreference" aria-hidden="true"></label>
+                        </div>
+
+                        <div class="profile-switch">
+                            <span class="profile-switch-text">
+                                <label class="profile-switch-title" for="mailNotificationPreference">E-posta Bildirimleri</label>
+                                <span class="profile-switch-desc">Yeni mesajlar hakkında bildirim alın.</span>
+                            </span>
+                            <input type="checkbox" class="profile-switch-input" id="mailNotificationPreference" role="switch" data-preference="mail-notifications">
+                            <label class="profile-switch-ui" for="mailNotificationPreference" aria-hidden="true"></label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-5">
+                <section class="profile-card profile-sticky pp-reveal pp-delay-4">
+                    <div class="profile-card-head">
+                        <span class="profile-card-icon"><i data-feather="activity"></i></span>
+                        <div>
+                            <h2 class="profile-card-title">Hesap Durumu</h2>
+                            <p class="profile-card-subtitle">Hesabınıza ait güncel özet.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-card-body profile-card-body-last">
+                        <ul class="profile-status-list">
+                            <li class="profile-status-item">
+                                <span class="profile-status-label">Hesap Durumu</span>
+                                @if (Model.IsLockedOut)
+                                {
+                                    <span class="profile-status-value profile-text-warning"><span class="profile-dot"></span> Kısıtlı</span>
+                                }
+                                else
+                                {
+                                    <span class="profile-status-value profile-text-success"><span class="profile-dot"></span> Aktif</span>
+                                }
+                            </li>
+                            <li class="profile-status-item">
+                                <span class="profile-status-label">E-posta</span>
+                                @if (Model.EmailConfirmed)
+                                {
+                                    <span class="profile-status-value profile-text-success"><span class="profile-dot"></span> Doğrulandı</span>
+                                }
+                                else
+                                {
+                                    <span class="profile-status-value profile-text-warning"><span class="profile-dot"></span> Doğrulanmadı</span>
+                                }
+                            </li>
+                            <li class="profile-status-item">
+                                <span class="profile-status-label">Kullanıcı Adı</span>
+                                <span class="profile-status-value">@Model.UserName</span>
+                            </li>
+                            <li class="profile-status-item">
+                                <span class="profile-status-label">Telefon</span>
+                                <span class="profile-status-value">
+                                    @(string.IsNullOrWhiteSpace(Model.Profile.Phone) ? "Eklenmedi" : Model.Profile.Phone)
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/js/profile.js" defer></script>

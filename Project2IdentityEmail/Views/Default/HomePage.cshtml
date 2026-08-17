@@ -1,0 +1,544 @@
+﻿@{
+    Layout = null;
+}
+
+<title>Rose Mail - Akıllı Mail Yönetimi</title>
+
+<link rel="icon" type="image/png"
+      href="~/mendy-admin/package/assets/images/favicon.png" />
+
+<link href="~/mendy-admin/package/dist/css/style.min.css" rel="stylesheet" />
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #29263d;
+        background: #faf9fd;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .landing-nav {
+        height: 70px;
+        padding: 0 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        border-bottom: 1px solid #eeeaf5;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #302b50;
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+        .brand img {
+            width: 36px;
+        }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+        .nav-links a {
+            color: #77738a;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+    .nav-login,
+    .nav-register {
+        padding: 10px 18px;
+        border-radius: 9px;
+    }
+
+    .nav-login {
+        border: 1px solid #ddd8e8;
+    }
+
+    .nav-register {
+        color: white !important;
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+    }
+
+    .hero {
+        min-height: calc(100vh - 70px);
+        padding: 70px 7%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 60px;
+        background: radial-gradient(circle at 10% 20%,#f9eafa,transparent 30%);
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 20px;
+        background: #f8eafb;
+        color: #a34de8;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .hero h1 {
+        margin: 0 0 18px;
+        max-width: 600px;
+        font-size: 52px;
+        line-height: 1.1;
+    }
+
+    .grad {
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        max-width: 560px;
+        color: #77738a;
+        line-height: 1.7;
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .btn-main,
+    .btn-outline {
+        padding: 13px 22px;
+        border-radius: 9px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+    .btn-main {
+        color: white;
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+    }
+
+    .btn-outline {
+        color: #665f78;
+        background: white;
+        border: 1px solid #ddd8e8;
+    }
+
+        .btn-main:hover,
+        .btn-outline:hover,
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+    .mail-preview {
+        padding: 15px;
+        border-radius: 20px;
+        background: white;
+        box-shadow: 0 25px 60px rgba(60,45,100,.12);
+        transition: .3s;
+    }
+
+        .mail-preview:hover {
+            transform: translateY(-8px) rotate(1deg);
+        }
+
+    .mail-window {
+        overflow: hidden;
+        border-radius: 14px;
+    }
+
+    .mail-header {
+        padding: 17px;
+        color: white;
+        font-weight: 600;
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+    }
+
+    .mail-list {
+        padding: 10px;
+    }
+
+    .mail-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 8px;
+        border-bottom: 1px solid #f1eef5;
+    }
+
+    .mail-avatar {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        background: #c078e9;
+        font-weight: 700;
+    }
+
+    .mail-text strong,
+    .mail-text span {
+        display: block;
+    }
+
+    .mail-text strong {
+        font-size: 14px;
+    }
+
+    .mail-text span {
+        margin-top: 4px;
+        color: #9995a7;
+        font-size: 12px;
+    }
+
+    section:not(.hero) {
+        padding: 80px 7%;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .section-title h2 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .section-title p {
+            color: #888497;
+        }
+
+    .features {
+        background: white;
+    }
+
+    .feature-grid,
+    .stats-grid {
+        max-width: 1100px;
+        margin: auto;
+        display: grid;
+        gap: 18px;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .feature-card {
+        padding: 25px;
+        border: 1px solid #eeeaf4;
+        border-radius: 15px;
+        transition: .2s;
+    }
+
+    .feature-icon {
+        width: 45px;
+        height: 45px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 15px;
+        border-radius: 11px;
+        color: #a34de8;
+        background: #f8eafb;
+    }
+
+    .feature-card h3 {
+        font-size: 17px;
+        margin-bottom: 8px;
+    }
+
+    .feature-card p {
+        margin: 0;
+        color: #898596;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .stats {
+        background: #f8f6fc;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(4,1fr);
+        text-align: center;
+    }
+
+    .stat strong {
+        display: block;
+        font-size: 32px;
+        background: linear-gradient(90deg,#e83ec9,#9859ef);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .stat span {
+        color: #888497;
+        font-size: 13px;
+    }
+
+    .cta {
+        text-align: center;
+        color: white;
+        background: linear-gradient(120deg,#e83ec9,#9859ef);
+    }
+
+        .cta h2 {
+            font-size: 30px;
+        }
+
+        .cta p {
+            opacity: .85;
+        }
+
+        .cta a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 13px 25px;
+            border-radius: 9px;
+            color: #9b4ce7;
+            background: white;
+            font-weight: 700;
+        }
+
+    footer {
+        padding: 22px;
+        text-align: center;
+        color: #9691a2;
+        font-size: 13px;
+        background: white;
+    }
+
+    @@media(max-width:900px) {
+        .hero {
+            grid-template-columns: 1fr;
+        }
+
+        .feature-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+
+    @@media(max-width:600px) {
+        .nav-links a:first-child {
+            display: none;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+        }
+
+        .feature-grid,
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        section:not(.hero) {
+            padding: 60px 20px;
+        }
+    }
+</style>
+
+<nav class="landing-nav">
+
+    <a asp-controller="Home" asp-action="Index" class="brand">
+        <img src="~/mendy-admin/package/assets/images/logo-icon.png" />
+        <span>Rose Mail</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="#features">Özellikler</a>
+
+        <a asp-controller="Login"
+           asp-action="UserLogin"
+           class="nav-login">
+            Giriş Yap
+        </a>
+
+        <a asp-controller="Register"
+           asp-action="CreateUser"
+           class="nav-register">
+            Kayıt Ol
+        </a>
+    </div>
+
+</nav>
+
+<section class="hero">
+
+    <div>
+        <span class="tag">Yeni nesil mail deneyimi</span>
+
+        <h1>
+            Gelen Kutunuzu
+            <span class="grad">Yeniden Tasarlayın</span>
+        </h1>
+
+        <p>
+            Mesajlarınızı tek bir platformdan yönetin.
+            Güvenli doğrulama, akıllı kategoriler ve modern
+            mail yönetimi ile daha kolay bir deneyim yaşayın.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a asp-controller="Register"
+               asp-action="CreateUser"
+               class="btn-main">
+                Hemen Başla
+            </a>
+
+            <a href="#features" class="btn-outline">
+                Özellikleri İncele
+            </a>
+
+        </div>
+    </div>
+
+    <div class="mail-preview">
+
+        <div class="mail-window">
+
+            <div class="mail-header">
+                ✉ &nbsp; Gelen Kutusu
+            </div>
+
+            <div class="mail-list">
+
+                @foreach (var mail in new[]
+                {
+                    new { Initial = "A", Name = "Ahmet Yılmaz", Text = "Toplantı hakkında bilgi..." },
+                    new { Initial = "M", Name = "Mehmet Kaya", Text = "Proje dosyalarını gönderdim." },
+                    new { Initial = "S", Name = "Staj Ekibi", Text = "Haftalık toplantı planı." },
+                    new { Initial = "R", Name = "Rose Mail", Text = "Hesabınız başarıyla oluşturuldu." }
+                })
+                {
+                    <div class="mail-item">
+                        <div class="mail-avatar">@mail.Initial</div>
+
+                        <div class="mail-text">
+                            <strong>@mail.Name</strong>
+                            <span>@mail.Text</span>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="features" class="features">
+
+    <div class="section-title">
+        <h2>Güçlü Özellikler</h2>
+        <p>Mail yönetiminizi daha kolay ve güvenli hale getirin.</p>
+    </div>
+
+    <div class="feature-grid">
+
+        @foreach (var feature in new[]
+        {
+            new { Icon = "▦", Title = "Akıllı Kategoriler", Text = "Mesajlarınızı iş, arkadaş veya spam gibi kategorilere ayırın." },
+            new { Icon = "🔒", Title = "Güvenli Giriş", Text = "İki adımlı doğrulama ile hesabınızı koruyun." },
+            new { Icon = "✓", Title = "E-posta Doğrulama", Text = "Kayıt sırasında gönderilen kod ile e-postanızı doğrulayın." },
+            new { Icon = "✎", Title = "Zengin Metin Editörü", Text = "Mesajlarınızı biçimlendirerek profesyonel e-postalar hazırlayın." },
+            new { Icon = "✉", Title = "Gelen Kutusu", Text = "Gelen ve gönderilen mesajlarınızı kolayca yönetin." },
+            new { Icon = "▥", Title = "Mesaj İstatistikleri", Text = "Mesaj aktivitelerinizi dashboard üzerinden takip edin." }
+        })
+        {
+            <div class="feature-card">
+                <div class="feature-icon">@feature.Icon</div>
+                <h3>@feature.Title</h3>
+                <p>@feature.Text</p>
+            </div>
+        }
+
+    </div>
+
+</section>
+
+<section class="stats">
+
+    <div class="section-title">
+        <h2>Rose Mail ile</h2>
+        <p>Daha düzenli, güvenli ve modern bir mail deneyimi.</p>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat">
+            <strong>100%</strong>
+            <span>Güvenli</span>
+        </div>
+
+        <div class="stat">
+            <strong>99.9%</strong>
+            <span>Çalışma Süresi</span>
+        </div>
+
+        <div class="stat">
+            <strong>24/7</strong>
+            <span>Erişilebilir</span>
+        </div>
+
+        <div class="stat">
+            <strong>2FA</strong>
+            <span>Güvenli Giriş</span>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="cta">
+
+    <h2>Mail deneyiminizi şimdi geliştirin.</h2>
+
+    <p>Ücretsiz hesabınızı oluşturun ve Rose Mail'i kullanmaya başlayın.</p>
+
+    <a asp-controller="Register"
+       asp-action="CreateUser">
+        Ücretsiz Hesap Oluştur
+    </a>
+
+</section>
+
+<footer>
+    © 2026 Rose Mail. Tüm hakları saklıdır.
+</footer>

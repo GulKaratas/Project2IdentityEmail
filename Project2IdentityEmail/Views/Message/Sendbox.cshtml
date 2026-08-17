@@ -1,0 +1,456 @@
+@model Project2IdentityEmail.ViewModels.SendMessageViewModel
+
+@{
+    ViewData["Title"] = "Gönderilen Mesajlar";
+    Layout = "~/Views/UserLayout/_UserLayout.cshtml";
+}
+
+<style>
+    .inbox-page {
+        padding: 25px;
+    }
+
+    .inbox-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 30px rgba(40, 35, 70, .07);
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .inbox-header {
+        padding: 25px;
+        border-bottom: 1px solid #f0edf5;
+    }
+
+        .inbox-header h3 {
+            margin: 0;
+            font-weight: 700;
+            color: #29263d;
+        }
+
+        .inbox-header p {
+            margin: 6px 0 20px;
+            color: #9691a5;
+            font-size: 14px;
+        }
+
+    .inbox-toolbar {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-wrapper {
+        position: relative;
+        width: 420px;
+        max-width: 100%;
+    }
+
+        .search-wrapper input {
+            width: 100%;
+            height: 44px;
+            padding: 0 15px 0 44px;
+            border: 1px solid #e5e0ed;
+            border-radius: 10px;
+            outline: none;
+            color: #39344d;
+            background: #fff;
+        }
+
+            .search-wrapper input:focus {
+                border-color: #d64bd0;
+                box-shadow: 0 0 0 3px rgba(214, 75, 208, .08);
+            }
+
+            .search-wrapper input::placeholder {
+                color: #aaa6b5;
+            }
+
+    .mail-table-wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .mail-table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+        .mail-table thead {
+            background: #faf9fc;
+        }
+
+        .mail-table th {
+            padding: 15px 14px;
+            border-bottom: 1px solid #eeeaf4;
+            color: #858092;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .mail-table td {
+            padding: 16px 14px;
+            border-bottom: 1px solid #f1eef5;
+            vertical-align: middle;
+            color: #5f5a6e;
+            font-size: 13px;
+            overflow: hidden;
+        }
+
+        .mail-table tbody tr {
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+            .mail-table tbody tr:hover {
+                background: #fcf8ff;
+            }
+
+    .col-sender {
+        width: 19%;
+    }
+
+    .col-category {
+        width: 10%;
+    }
+
+    .col-subject {
+        width: 15%;
+    }
+
+    .col-message {
+        width: 20%;
+    }
+
+    .col-status {
+        width: 11%;
+    }
+
+    .col-date {
+        width: 14%;
+    }
+
+    .col-actions {
+        width: 11%;
+        text-align: center;
+    }
+
+    .sender-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .sender-avatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: linear-gradient(135deg, #e83ec9, #9859ef);
+        font-weight: 700;
+    }
+
+    .sender-info {
+        min-width: 0;
+    }
+
+        .sender-info strong {
+            display: block;
+            color: #373249;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sender-info small {
+            color: #aaa5b5;
+            white-space: nowrap;
+        }
+
+    .text-truncate-custom {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .category-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #f4e7fc;
+        color: #974fe1;
+        font-size: 11px;
+        font-weight: 600;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #9851e2;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #a64ee4;
+    }
+
+    .status.read {
+        color: #20a879;
+    }
+
+        .status.read .status-dot {
+            background: #20a879;
+        }
+
+    .delete-btn {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 9px;
+        color: #ed5570;
+        background: #fff0f3;
+        transition: .2s;
+    }
+
+        .delete-btn:hover {
+            color: #fff;
+            background: #ed5570;
+        }
+
+    .inbox-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 25px;
+        color: #9691a5;
+        font-size: 13px;
+    }
+
+    .pagination {
+        margin: 0;
+    }
+
+        .pagination .page-link {
+            border: 0;
+            color: #777184;
+            border-radius: 8px;
+            margin: 0 2px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #e83ec9, #9859ef);
+            color: #fff;
+        }
+
+    @@media (max-width: 992px) {
+
+        .inbox-page {
+            padding: 15px;
+        }
+
+        .mail-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .mail-table {
+            min-width: 850px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+
+        .inbox-header {
+            padding: 18px;
+        }
+
+        .search-wrapper {
+            width: 100%;
+        }
+
+        .inbox-footer {
+            padding: 15px;
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+</style>
+
+<div class="page-wrapper">
+
+    <div class="inbox-page">
+
+        <div class="inbox-card">
+
+            <div class="inbox-header">
+
+                <h3>Gönderilen Mesajlar</h3>
+
+                <p>
+                    Gönderdiğiniz mesajları buradan yönetebilirsiniz.
+                </p>
+
+                <div class="inbox-toolbar">
+                    <div class="search-wrapper">
+                        <input type="text"
+                               id="mailSearch"
+                               placeholder="Alıcı, konu veya mesaj ara..." />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mail-table-wrapper">
+
+                <table class="mail-table">
+
+                    <thead>
+                        <tr>
+                            <th class="col-sender">Alıcı</th>
+                            <th class="col-category">Kategori</th>
+                            <th class="col-subject">Konu</th>
+                            <th class="col-message">Mesaj</th>
+                            <th class="col-status">Durum</th>
+                            <th class="col-date">Tarih</th>
+                            <th class="col-actions">İşlemler</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="mailTableBody">
+
+                        @foreach (var item in Model.Messages)
+                        {
+                            <tr class="mail-row"
+                                onclick="window.location.href='@Url.Action("MessageDetails", "Message", new { id = item.MessageId })'">
+
+                                <td>
+                                    <div class="sender-content">
+                                        <div class="sender-avatar">
+                                            @(string.IsNullOrEmpty(item.ReceiverEmail)
+                                                ? "?"
+                                                : item.ReceiverEmail.Substring(0, 1).ToUpper())
+                                        </div>
+                                        <div class="sender-info">
+                                            <strong>@item.ReceiverEmail</strong>
+                                            <small>Mail alıcısı</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="category-badge">@item.Category</span>
+                                </td>
+
+                                <td>
+                                    <span class="text-truncate-custom" title="@item.Subject">
+                                        @item.Subject
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="text-truncate-custom" title="@item.MessageDetail">
+                                        @item.MessageDetail
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="status read">
+                                        <span class="status-dot"></span>
+                                        Gönderildi
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="text-truncate-custom">
+                                        @item.SendDate.ToString("dd.MM.yyyy HH:mm")
+                                    </span>
+                                </td>
+
+                                <td class="col-actions" onclick="event.stopPropagation();">
+                                    <button type="button" class="delete-btn" title="Mesajı Sil">
+                                        <i data-feather="trash-2"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="inbox-footer">
+
+                <span>
+                    @Model.Messages.Count mesaj gösteriliyor
+                </span>
+
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">‹</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">›</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        if (typeof feather !== "undefined") {
+            feather.replace();
+        }
+
+        const searchInput = document.getElementById("mailSearch");
+        const rows = document.querySelectorAll(".mail-row");
+
+        searchInput.addEventListener("input", function () {
+            const searchValue = this.value.toLowerCase().trim();
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(searchValue) ? "" : "none";
+            });
+        });
+
+    });
+</script>

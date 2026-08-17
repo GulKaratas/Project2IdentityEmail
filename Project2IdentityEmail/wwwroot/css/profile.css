@@ -1,0 +1,736 @@
+/* Profil Ayarları — Mendy temasıyla uyumlu, izole edilmiş sayfa stilleri */
+
+.profile-page {
+    --pp-accent: #f158d0;
+    --pp-accent-strong: #d63cb1;
+    --pp-accent-soft: rgba(241, 88, 208, .13);
+    --pp-ink: #1e2331;
+    --pp-ink-soft: #4b5468;
+    --pp-muted: #8a93a8;
+    --pp-line: #e9ecf3;
+    --pp-line-strong: #dfe3ec;
+    --pp-surface: #fff;
+    --pp-surface-sunken: #fafbfd;
+    --pp-success: #1fa971;
+    --pp-warning: #d98209;
+    --pp-danger: #e0554a;
+    --pp-radius: 18px;
+    --pp-radius-sm: 12px;
+    --pp-shadow: 0 1px 2px rgba(24, 29, 44, .04), 0 14px 34px -20px rgba(24, 29, 44, .3);
+    --pp-shadow-lift: 0 2px 4px rgba(24, 29, 44, .05), 0 24px 46px -22px rgba(24, 29, 44, .34);
+    --pp-ease: cubic-bezier(.22, .61, .36, 1);
+    color: var(--pp-ink);
+}
+
+.profile-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+/* ── Giriş animasyonları ────────────────────────────────────────────────
+   fill-mode "backwards" bilinçli tercih: animasyon bittikten sonra
+   elemanın kendi transform'u serbest kalır, böylece hover efektleri çalışır. */
+
+@keyframes pp-rise {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+}
+
+@keyframes pp-pop {
+    from {
+        opacity: 0;
+        transform: scale(.85);
+    }
+}
+
+.pp-reveal {
+    animation: pp-rise .55s var(--pp-ease) backwards;
+}
+
+.pp-delay-1 { animation-delay: .06s; }
+.pp-delay-2 { animation-delay: .12s; }
+.pp-delay-3 { animation-delay: .18s; }
+.pp-delay-4 { animation-delay: .24s; }
+
+/* ── Sayfa başlığı ──────────────────────────────────────────────────── */
+
+.profile-topbar {
+    margin-bottom: 26px;
+}
+
+.profile-title {
+    margin: 0 0 6px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--pp-ink);
+}
+
+.profile-subtitle {
+    margin: 0;
+    font-size: .95rem;
+    color: var(--pp-muted);
+}
+
+/* ── Kart iskeleti ──────────────────────────────────────────────────── */
+
+.profile-card {
+    position: relative;
+    margin-bottom: 24px;
+    background: var(--pp-surface);
+    border: 1px solid var(--pp-line);
+    border-radius: var(--pp-radius);
+    box-shadow: var(--pp-shadow);
+    transition: transform .3s var(--pp-ease), box-shadow .3s var(--pp-ease);
+}
+
+/* Form doldurulurken kartın kıpırdaması rahatsız edici olduğu için
+   yalnızca odak dışındayken yükseliyor. */
+.profile-card:hover:not(:focus-within) {
+    transform: translateY(-3px);
+    box-shadow: var(--pp-shadow-lift);
+}
+
+.profile-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 26px 28px 0;
+}
+
+.profile-card-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    color: var(--pp-accent);
+    background: var(--pp-accent-soft);
+    border-radius: var(--pp-radius-sm);
+}
+
+.profile-card-title {
+    margin: 0;
+    font-size: 1.075rem;
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+.profile-card-subtitle {
+    margin: 3px 0 0;
+    font-size: .85rem;
+    color: var(--pp-muted);
+}
+
+.profile-card-body {
+    padding: 24px 28px 4px;
+}
+
+/* Alt eylem çubuğu olmayan kartlarda son boşluğu gövde taşır. */
+.profile-card-body-last {
+    padding-bottom: 26px;
+}
+
+.profile-card-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 8px 28px 26px;
+}
+
+/* ── Hero kartı ─────────────────────────────────────────────────────── */
+
+.profile-hero {
+    overflow: hidden;
+}
+
+.profile-hero::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 130px;
+    content: "";
+    background: linear-gradient(120deg, rgba(241, 88, 208, .1), rgba(48, 204, 255, .09) 60%, transparent);
+    pointer-events: none;
+}
+
+.profile-hero-body {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    padding: 28px;
+}
+
+.profile-avatar-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.profile-avatar {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    width: 116px;
+    height: 116px;
+    margin: 0;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--pp-surface-sunken);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 12px 30px -14px rgba(24, 29, 44, .5);
+    transition: transform .3s var(--pp-ease), box-shadow .3s var(--pp-ease);
+    animation: pp-pop .5s var(--pp-ease) .1s backwards;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.04);
+    box-shadow: 0 18px 36px -14px rgba(24, 29, 44, .55);
+}
+
+.profile-avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    font-size: .7rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+    text-align: center;
+    background: rgba(19, 23, 36, .62);
+    opacity: 0;
+    transition: opacity .25s var(--pp-ease);
+}
+
+.profile-avatar:hover .profile-avatar-overlay,
+.profile-avatar-input:focus-visible + .profile-avatar .profile-avatar-overlay {
+    opacity: 1;
+}
+
+.profile-avatar-input:focus-visible + .profile-avatar {
+    box-shadow: 0 0 0 4px var(--pp-accent-soft);
+}
+
+.profile-hero-meta {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.profile-hero-name {
+    margin: 0 0 4px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    overflow-wrap: anywhere;
+}
+
+.profile-hero-mail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-size: .9rem;
+    color: var(--pp-muted);
+    overflow-wrap: anywhere;
+}
+
+/* ── Rozetler ve durum noktaları ────────────────────────────────────── */
+
+.profile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 15px;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    border-radius: 999px;
+}
+
+.profile-badge-success {
+    color: var(--pp-success);
+    background: rgba(31, 169, 113, .12);
+}
+
+.profile-badge-muted {
+    color: var(--pp-warning);
+    background: rgba(217, 130, 9, .12);
+}
+
+.profile-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+/* ── Form alanları ──────────────────────────────────────────────────── */
+
+.profile-field {
+    margin-bottom: 20px;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--pp-ink-soft);
+}
+
+.profile-input {
+    position: relative;
+}
+
+.profile-input .form-control {
+    height: 52px;
+    padding: 0 16px 0 46px;
+    font-size: .94rem;
+    color: var(--pp-ink);
+    background: var(--pp-surface-sunken);
+    border: 1px solid var(--pp-line-strong);
+    border-radius: var(--pp-radius-sm);
+    box-shadow: none;
+    transition: border-color .2s var(--pp-ease), box-shadow .25s var(--pp-ease), background-color .2s linear;
+}
+
+.profile-input .form-control::placeholder {
+    color: #b3bacb;
+}
+
+.profile-input .form-control:hover {
+    border-color: #cfd5e2;
+}
+
+.profile-input .form-control:focus {
+    background: var(--pp-surface);
+    border-color: var(--pp-accent);
+    box-shadow: 0 0 0 4px var(--pp-accent-soft);
+}
+
+.profile-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    width: 18px;
+    height: 18px;
+    color: var(--pp-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color .2s linear;
+}
+
+.profile-input .form-control:focus + .profile-input-icon {
+    color: var(--pp-accent);
+}
+
+.profile-input-password .form-control {
+    padding-right: 50px;
+}
+
+.profile-eye {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--pp-muted);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+    transform: translateY(-50%);
+    transition: color .2s linear, background-color .2s linear;
+}
+
+.profile-eye:hover {
+    color: var(--pp-ink);
+    background: #eef0f6;
+}
+
+.profile-eye:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--pp-accent-soft);
+}
+
+.profile-eye .profile-eye-off,
+.profile-input-password.is-revealed .profile-eye .profile-eye-on {
+    display: none;
+}
+
+.profile-input-password.is-revealed .profile-eye .profile-eye-off {
+    display: inline-flex;
+}
+
+.profile-error {
+    display: block;
+    margin-top: 7px;
+    font-size: .78rem;
+    color: var(--pp-danger);
+}
+
+.profile-error:empty {
+    display: none;
+}
+
+/* ── Butonlar ───────────────────────────────────────────────────────── */
+
+.profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    height: 47px;
+    padding: 0 24px;
+    font-size: .9rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: var(--pp-radius-sm);
+    transition: transform .2s var(--pp-ease), box-shadow .25s var(--pp-ease), background-color .2s linear, color .2s linear;
+}
+
+.profile-btn-primary,
+.profile-btn-primary:focus {
+    color: #fff;
+    background: var(--pp-accent);
+    box-shadow: 0 12px 24px -14px rgba(241, 88, 208, .95);
+}
+
+.profile-btn-primary:hover {
+    color: #fff;
+    background: var(--pp-accent-strong);
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 18px 30px -14px rgba(241, 88, 208, 1);
+}
+
+.profile-btn-primary:active {
+    transform: translateY(0) scale(.99);
+}
+
+.profile-btn-ghost,
+.profile-btn-ghost:focus {
+    color: var(--pp-ink-soft);
+    background: var(--pp-surface);
+    border-color: var(--pp-line-strong);
+    box-shadow: none;
+}
+
+.profile-btn-ghost:hover {
+    color: var(--pp-ink);
+    background: #f4f5f9;
+    transform: translateY(-2px);
+}
+
+.profile-btn-ghost:active {
+    transform: translateY(0);
+}
+
+.profile-btn:focus {
+    outline: none;
+}
+
+.profile-btn:focus-visible {
+    box-shadow: 0 0 0 4px var(--pp-accent-soft);
+}
+
+/* ── Switch ─────────────────────────────────────────────────────────── */
+
+.profile-switch {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--pp-line);
+}
+
+.profile-switch-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-switch-title {
+    display: block;
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-switch-desc {
+    display: block;
+    margin-top: 2px;
+    font-size: .8rem;
+    color: var(--pp-muted);
+}
+
+.profile-switch-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.profile-switch-ui {
+    position: relative;
+    flex-shrink: 0;
+    width: 48px;
+    height: 28px;
+    margin: 0;
+    cursor: pointer;
+    background: var(--pp-line-strong);
+    border-radius: 999px;
+    transition: background-color .28s var(--pp-ease), box-shadow .25s var(--pp-ease);
+}
+
+.profile-switch-ui::after {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    content: "";
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(24, 29, 44, .3);
+    transition: transform .28s var(--pp-ease);
+}
+
+.profile-switch-input:checked + .profile-switch-ui {
+    background: var(--pp-accent);
+}
+
+.profile-switch-input:checked + .profile-switch-ui::after {
+    transform: translateX(20px);
+}
+
+.profile-switch-input:focus-visible + .profile-switch-ui {
+    box-shadow: 0 0 0 4px var(--pp-accent-soft);
+}
+
+/* ── Hesap durumu ───────────────────────────────────────────────────── */
+
+.profile-status-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.profile-status-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 1px solid var(--pp-line);
+}
+
+.profile-status-item:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.profile-status-label {
+    font-size: .85rem;
+    color: var(--pp-muted);
+}
+
+.profile-status-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-size: .87rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.profile-text-success { color: var(--pp-success); }
+.profile-text-warning { color: var(--pp-warning); }
+
+/* ── Bildirimler ────────────────────────────────────────────────────── */
+
+.profile-flash {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: .88rem;
+    font-weight: 500;
+    border: 1px solid;
+    border-radius: var(--pp-radius-sm);
+}
+
+.profile-flash-success {
+    color: #14764f;
+    background: rgba(31, 169, 113, .09);
+    border-color: rgba(31, 169, 113, .26);
+}
+
+.profile-flash-error {
+    padding: 14px 18px 14px 40px;
+    margin-bottom: 22px;
+    font-size: .84rem;
+    color: #a8382f;
+    list-style: disc;
+    background: rgba(224, 85, 74, .07);
+    border: 1px solid rgba(224, 85, 74, .24);
+    border-radius: var(--pp-radius-sm);
+}
+
+.profile-flash-error li + li {
+    margin-top: 4px;
+}
+
+/* ── İkon boyutları (Feather) ───────────────────────────────────────── */
+
+.profile-page .feather {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.profile-card-icon .feather {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-avatar-overlay .feather {
+    width: 22px;
+    height: 22px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (min-width: 992px) {
+    .profile-sticky {
+        position: sticky;
+        top: 88px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .profile-page.container-fluid {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .profile-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .profile-hero-body {
+        flex-direction: column;
+        padding: 26px 20px;
+        text-align: center;
+    }
+
+    .profile-hero-mail {
+        justify-content: center;
+    }
+
+    .profile-card-head {
+        padding: 22px 20px 0;
+    }
+
+    .profile-card-body {
+        padding: 20px 20px 4px;
+    }
+
+    .profile-card-foot {
+        flex-direction: column-reverse;
+        padding: 4px 20px 22px;
+    }
+
+    .profile-card-foot .profile-btn {
+        width: 100%;
+    }
+}
+
+/* ── Layout uyumluluğu ──────────────────────────────────────────────────
+   Sidebar partial'ı kapatılmamış bir "</aside" etiketiyle bittiği için
+   tarayıcı, layout'taki page-wrapper div'ini o etiketin parçası sanıp
+   yutuyor. Bu durumda içerik doğrudan #main-wrapper'ın çocuğu kaldığından
+   temanın sidebar ve header boşlukları uygulanmıyor. Aşağıdaki kurallar
+   yalnızca bu senaryoda eşleşir; etiket düzeltildiğinde içerik yeniden
+   page-wrapper içine gireceği için kendiliğinden devre dışı kalır. */
+
+/* container-fluid'in width:100% değeri margin-left ile toplanıp taşmaya yol
+   açtığı için genişlik kalan alana bırakılıyor. */
+#main-wrapper > .profile-page {
+    width: auto;
+    min-height: calc(100vh - 64px);
+    padding: 30px;
+    transition: margin-left .2s ease-in;
+}
+
+#main-wrapper[data-header-position="fixed"] > .profile-page {
+    padding-top: 94px;
+}
+
+@media (min-width: 767px) {
+    #main-wrapper[data-sidebartype="full"] > .profile-page {
+        margin-left: 300px;
+    }
+
+    #main-wrapper[data-sidebartype="mini-sidebar"] > .profile-page {
+        margin-left: 65px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #main-wrapper > .profile-page {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+}
+
+/* ── Hareket azaltma tercihi ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-page,
+    .profile-page *,
+    .profile-page *::before,
+    .profile-page *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-delay: 0ms !important;
+    }
+
+    .profile-card:hover:not(:focus-within),
+    .profile-btn:hover,
+    .profile-avatar:hover {
+        transform: none;
+    }
+}

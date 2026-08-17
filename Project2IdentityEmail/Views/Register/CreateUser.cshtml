@@ -1,0 +1,494 @@
+@model Project2IdentityEmail.Dtos.CreateUserRegisterDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rose Mail - Kayıt Ol</title>
+
+    <link rel="icon" type="image/png"
+          href="~/mendy-admin/package/assets/images/favicon.png" />
+
+    <link href="~/mendy-admin/package/dist/css/style.min.css" rel="stylesheet" />
+
+    <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: #f7f5fb;
+            }
+
+            .register-page {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 30px 20px;
+            }
+
+            .register-card {
+                width: 100%;
+                max-width: 1050px;
+                display: grid;
+                grid-template-columns: 42% 58%;
+                background: #fff;
+                border-radius: 22px;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(52,43,100,.12);
+            }
+
+            /* SOL */
+            .register-info {
+                padding: 45px;
+                color: white;
+                background: linear-gradient(145deg,#e83ec9,#8c5cf5);
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 55px;
+                font-size: 22px;
+                font-weight: 700;
+            }
+
+                .brand img {
+                    width: 38px;
+                }
+
+            .register-info h1 {
+                font-size: 32px;
+                line-height: 1.2;
+                margin-bottom: 15px;
+            }
+
+            .register-info > p {
+                color: rgba(255,255,255,.82);
+                line-height: 1.6;
+                margin-bottom: 35px;
+            }
+
+            .step {
+                display: flex;
+                gap: 13px;
+                margin-bottom: 22px;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: rgba(255,255,255,.18);
+            }
+
+            .step strong {
+                display: block;
+                margin-bottom: 3px;
+            }
+
+            .step span {
+                font-size: 13px;
+                color: rgba(255,255,255,.72);
+            }
+
+            /* SAĞ */
+            .register-form {
+                padding: 45px 60px;
+                display: flex;
+                align-items: center;
+            }
+
+            .form-content {
+                width: 100%;
+                max-width: 470px;
+                margin: auto;
+            }
+
+            .form-header {
+                margin-bottom: 25px;
+            }
+
+                .form-header h2 {
+                    color: #29263d;
+                    font-size: 27px;
+                    margin-bottom: 6px;
+                }
+
+                .form-header p {
+                    color: #9290a1;
+                    margin: 0;
+                }
+
+            .input-group-custom {
+                margin-bottom: 14px;
+            }
+
+                .input-group-custom label {
+                    display: block;
+                    color: #4c4960;
+                    font-size: 13px;
+                    font-weight: 600;
+                    margin-bottom: 6px;
+                }
+
+                .input-group-custom input {
+                    width: 100%;
+                    height: 45px;
+                    padding: 0 14px;
+                    border: 1px solid #e8e5ef;
+                    border-radius: 9px;
+                    outline: none;
+                }
+
+                    .input-group-custom input:focus {
+                        border-color: #b45ce9;
+                        box-shadow: 0 0 0 3px rgba(180,92,233,.1);
+                    }
+
+            .form-check-label {
+                font-size: 13px;
+                color: #888597;
+            }
+
+                .form-check-label a {
+                    color: #974ee9;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+            .register-btn {
+                width: 100%;
+                height: 48px;
+                border: 0;
+                border-radius: 9px;
+                color: white;
+                font-weight: 600;
+                background: linear-gradient(90deg,#e83ec9,#9859ef);
+            }
+
+            .login-link {
+                text-align: center;
+                margin-top: 18px;
+                color: #9290a1;
+                font-size: 14px;
+            }
+
+                .login-link a {
+                    color: #974ee9;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+            /* MODAL */
+            .guide-icon {
+                width: 45px;
+                height: 45px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #f4e8ff;
+                color: #974ee9;
+                font-size: 20px;
+            }
+
+            .guide-item {
+                display: flex;
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+
+                .guide-item strong {
+                    display: block;
+                    color: #302d43;
+                    margin-bottom: 3px;
+                }
+
+                .guide-item span {
+                    color: #777487;
+                    font-size: 13px;
+                }
+
+            @@media (max-width: 768px) {
+                .register-card {
+                    grid-template-columns: 1fr;
+                }
+
+                .register-info {
+                    padding: 35px;
+                }
+
+                .register-form {
+                    padding: 35px 25px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-page">
+
+        <div class="register-card">
+
+            <!-- SOL -->
+            <section class="register-info">
+
+                <div class="brand">
+                    <img src="~/mendy-admin/package/assets/images/logo-icon.png" />
+                    <span>Rose Mail</span>
+                </div>
+
+                <h1>Mail deneyiminizi<br />daha kolay yönetin.</h1>
+
+                <p>
+                    Hesabınızı oluşturun ve mesajlarınızı güvenli
+                    ve kolay bir şekilde yönetmeye başlayın.
+                </p>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Bilgilerinizi girin</strong>
+                        <span>Ad, kullanıcı adı ve e-posta bilgilerinizi doldurun.</span>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>E-posta adresinizi doğrulayın</strong>
+                        <span>E-posta adresinize gönderilen doğrulama kodunu girin.</span>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>Rose Mail'i kullanmaya başlayın</strong>
+                        <span>Mesajlarınızı gönderin, alın ve yönetin.</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SAĞ -->
+            <section class="register-form">
+
+                <div class="form-content">
+
+                    <div class="form-header">
+                        <h2>Hesap Oluştur</h2>
+                        <p>Rose Mail'e katılmak için bilgilerinizi girin.</p>
+                    </div>
+
+                    <form asp-controller="Register"
+                          asp-action="CreateUser"
+                          method="post"
+                          id="registerForm">
+
+                        <div asp-validation-summary="All"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label>Ad</label>
+                                    <input asp-for="Name"
+                                           placeholder="Adınız"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label>Soyad</label>
+                                    <input asp-for="Surname"
+                                           placeholder="Soyadınız"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="input-group-custom">
+                            <label>Kullanıcı Adı</label>
+                            <input asp-for="Username"
+                                   placeholder="Kullanıcı adınız"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="input-group-custom">
+                            <label>E-posta</label>
+                            <input asp-for="Email"
+                                   type="email"
+                                   placeholder="ornek@email.com"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label>Şifre</label>
+                                    <input asp-for="Password"
+                                           type="password"
+                                           placeholder="••••••••"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label>Şifre Tekrar</label>
+                                    <input asp-for="ConfirmPassword"
+                                           type="password"
+                                           placeholder="••••••••"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- KULLANIM KOŞULLARI -->
+                        <div class="form-check mb-3">
+
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="terms"
+                                   required />
+
+                            <label class="form-check-label" for="terms">
+                                Kullanım koşullarını kabul ediyorum.
+                                <a href="#"
+                                   data-toggle="modal"
+                                   data-target="#userGuideModal">
+                                    Kullanım kılavuzunu incele
+                                </a>
+                            </label>
+
+                        </div>
+
+                        <button type="submit" class="register-btn">
+                            Hesap Oluştur
+                        </button>
+
+                    </form>
+
+                    <div class="login-link">
+                        Zaten hesabınız var mı?
+                        <a asp-controller="Login" asp-action="Index">
+                            Giriş Yap
+                        </a>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- KULLANIM KILAVUZU MODAL -->
+    <div class="modal fade" id="userGuideModal" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content border-0">
+
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title mb-1">Rose Mail Kullanım Kılavuzu</h5>
+                        <small class="text-muted">
+                            Hesabınızı oluştururken bilmeniz gerekenler
+                        </small>
+                    </div>
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="guide-item">
+                        <div class="guide-icon">1</div>
+                        <div>
+                            <strong>Hesap oluşturun</strong>
+                            <span>
+                                Kayıt formundaki bilgileri eksiksiz ve doğru şekilde doldurun.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon">2</div>
+                        <div>
+                            <strong>E-posta doğrulaması</strong>
+                            <span>
+                                Kayıt sonrasında e-posta adresinize 6 haneli
+                                doğrulama kodu gönderilir.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon">3</div>
+                        <div>
+                            <strong>Mesajlarınızı yönetin</strong>
+                            <span>
+                                Doğrulama tamamlandıktan sonra gelen ve gönderilen
+                                mesajlarınızı yönetebilirsiniz.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="guide-item mb-0">
+                        <div class="guide-icon">4</div>
+                        <div>
+                            <strong>Güvenliğinizi koruyun</strong>
+                            <span>
+                                Şifrenizi ve doğrulama kodunuzu başka kişilerle paylaşmayın.
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-dismiss="modal">
+                        Anladım
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="~/mendy-admin/package/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/mendy-admin/package/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

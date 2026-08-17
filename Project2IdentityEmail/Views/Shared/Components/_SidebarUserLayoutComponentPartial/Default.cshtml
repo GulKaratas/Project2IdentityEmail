@@ -1,0 +1,90 @@
+<aside class="left-sidebar">
+
+    <div class="scroll-sidebar">
+   
+    <nav class="sidebar-nav">
+        <ul id="sidebarnav">
+
+            <!-- Yeni Mesaj -->
+            <li class="mt-3">
+                <a href="/Message/SendMessage/"
+                   class="btn create-btn text-white no-wrap d-flex align-items-center">
+                    <i data-feather="edit-3"></i>
+                    <span class="hide-menu ml-2 text-uppercase">Yeni Mesaj</span>
+                </a>
+            </li>
+
+            <!-- Dashboard -->
+            <li class="sidebar-item">
+                <a href="/Dashboard/Index/" class="sidebar-link">
+                    <i data-feather="grid" class="mr-2"></i>
+                    <span class="hide-menu">Dashboard</span>
+                </a>
+            </li>
+
+            <!-- Mail Kutusu -->
+            <li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark"
+                   href="javascript:void(0)"
+                   aria-expanded="false">
+
+                    <i data-feather="mail" class="mr-2"></i>
+                    <span class="hide-menu">Mail Kutusu</span>
+                </a>
+
+                <ul aria-expanded="false" class="collapse first-level">
+
+                    <!-- Gelen Kutusu -->
+                    <li class="sidebar-item">
+                        <a href="/Message/Inbox" class="sidebar-link">
+                            <i data-feather="inbox" class="mr-2"></i>
+                            <span class="hide-menu">Gelen Kutusu</span>
+                        </a>
+                    </li>
+
+                    <!-- Gönderilen Mesajlar -->
+                    <li class="sidebar-item">
+                        <a href="/Message/Sendbox" class="sidebar-link">
+                            <i data-feather="send" class="mr-2"></i>
+                            <span class="hide-menu">Gönderilen Mesajlar</span>
+                        </a>
+                    </li>
+
+                    <!-- Yeni Mesaj -->
+                    <li class="sidebar-item">
+                        <a href="/Message/SendMessage" class="sidebar-link">
+                            <i data-feather="edit-3" class="mr-2"></i>
+                            <span class="hide-menu">Yeni Mesaj</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <!-- Profil -->
+            <li class="sidebar-item">
+                <a class="sidebar-link waves-effect waves-dark"
+                   asp-controller="Profile"
+                   asp-action="UserProfile">
+
+                    <i data-feather="user" class="mr-2"></i>
+                    <span class="hide-menu">Profil</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+    <a class="sidebar-link waves-effect waves-dark"
+       asp-controller="Login"
+       asp-action="Logout">
+        <i data-feather="log-out" class="mr-2"></i>
+        <span class="hide-menu">Çıkış Yap</span>
+    </a>
+</li>
+
+        </ul>
+    </nav>
+
+</div>
+</aside
+
+                

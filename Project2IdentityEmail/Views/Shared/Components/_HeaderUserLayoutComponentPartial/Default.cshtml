@@ -1,0 +1,162 @@
+@model HeaderUserViewModel
+@{
+    var avatarUrl = string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? Url.Content("~/mendy-admin/package/assets/images/users/1.jpg")
+        : Url.Content($"~/images/{Model.ImageUrl}");
+    var displayName = string.IsNullOrWhiteSpace(Model.FullName) ? Model.Email : Model.FullName;
+}
+
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <div class="navbar-header">
+
+            <a class="nav-toggler d-block d-md-none" href="javascript:void(0)">
+                <i class="ti-menu ti-close"></i>
+            </a>
+
+            <div class="navbar-brand">
+                <a asp-controller="Dashboard" asp-action="Index" class="logo">
+                    <b class="logo-icon">
+                        <img src="~/mendy-admin/package/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                        <img src="~/mendy-admin/package/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                    </b>
+                    <span class="logo-text">
+                        <img src="~/mendy-admin/package/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        <img src="~/mendy-admin/package/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                    </span>
+                </a>
+                <a class="sidebartoggler d-none d-lg-block" href="javascript:void(0)" data-sidebartype="mini-sidebar">
+                    <i data-feather="menu"></i>
+                </a>
+            </div>
+
+            <a class="topbartoggler d-block d-md-none" href="javascript:void(0)" data-toggle="collapse"
+               data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+               aria-label="Toggle navigation">
+                <i class="ti-more"></i>
+            </a>
+        </div>
+        
+        <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav float-left mr-auto">
+                <li class="nav-item search-box">
+                    <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
+                        <i data-feather="search"></i>
+                    </a>
+                    <form class="app-search position-absolute">
+                        <input type="text" class="form-control" placeholder="Arama">
+                        <a class="srh-btn">
+                            <i class="ti-close"></i>
+                        </a>
+                    </form>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav float-right">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-3 font-normal d-none d-sm-inline-block pro-name">
+                            <span>Merhaba, </span>
+                            @displayName
+                        </span>
+                        <img src="@avatarUrl" alt="user" class="rounded-circle" width="40">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                        <div class="d-flex no-block align-items-center p-3 bg-light mb-2">
+                            <div>
+                                <img src="@avatarUrl" alt="user" class="rounded-circle" width="60">
+                            </div>
+                            <div class="ml-2">
+                                <h4 class="mb-0">@displayName</h4>
+                                <p class="mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+                        <div class="profile-dis scrollable">
+                            <a class="dropdown-item" asp-controller="Profile" asp-action="UserProfile">
+                                <i class="ti-user mx-1"></i> Profilim
+                            </a>
+                            <a class="dropdown-item" asp-controller="Message" asp-action="Inbox">
+                                <i class="ti-email mx-1"></i> Gelen Kutusu
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-controller="Profile" asp-action="UserProfile">
+                                <i class="ti-settings mx-1"></i> Hesap Ayarları
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-controller="Login" asp-action="Logout">
+                                <i class="fa fa-power-off mx-1"></i> Çıkış Yap
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i data-feather="mail"></i>
+                        @if (Model.UnreadCount > 0)
+                        {
+                            <span class="badge badge-pill badge-danger">@Model.UnreadCount</span>
+                        }
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown"
+                         aria-labelledby="2">
+                        <ul class="list-style-none">
+                            <li>
+                                <div class="drop-title bg-light">
+                                    <h4 class="mb-0 mt-1">
+                                        @(Model.UnreadCount > 0
+                                            ? $"{Model.UnreadCount} yeni mesaj"
+                                            : "Yeni mesaj yok")
+                                    </h4>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="message-center message-body">
+                                    @if (Model.RecentMessages.Any())
+                                    {
+                                        @foreach (var message in Model.RecentMessages)
+                                        {
+                                            <a asp-controller="Message"
+                                               asp-action="MessageDetails"
+                                               asp-route-id="@message.MessageId"
+                                               class="message-item">
+                                                <span class="user-img">
+                                                    <img src="@avatarUrl"
+                                                         alt="user"
+                                                         class="rounded-circle">
+                                                    <span class="profile-status @(message.IsStatus ? "away" : "online") pull-right"></span>
+                                                </span>
+                                                <div class="mail-contnet">
+                                                    <h5 class="message-title">@message.SenderEmail</h5>
+                                                    <span class="mail-desc">@message.Subject</span>
+                                                    <span class="time">@message.SendDate.ToString("dd.MM.yyyy HH:mm")</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="p-3 text-muted text-center">Gelen kutusu boş</div>
+                                    }
+                                </div>
+                            </li>
+                            <li>
+                                <a class="nav-link text-center link text-dark"
+                                   asp-controller="Message"
+                                   asp-action="Inbox">
+                                    <b>Tüm mailleri gör</b>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</header>

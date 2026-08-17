@@ -1,0 +1,298 @@
+@model Project2IdentityEmail.Dtos.ConfirmCodeDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rose Mail - Aktivasyon</title>
+
+    <link rel="icon"
+          type="image/png"
+          href="~/mendy-admin/package/assets/images/favicon.png" />
+
+    <link href="~/mendy-admin/package/dist/css/style.min.css"
+          rel="stylesheet" />
+
+    <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: #f7f5fb;
+            }
+
+            .activation-page {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 30px 20px;
+            }
+
+            .activation-card {
+                width: 100%;
+                max-width: 900px;
+                display: grid;
+                grid-template-columns: 42% 58%;
+                background: #fff;
+                border-radius: 22px;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(52, 43, 100, .12);
+            }
+
+            /* SOL */
+            .activation-info {
+                padding: 50px 45px;
+                color: #fff;
+                background: linear-gradient(145deg, #e83ec9, #8c5cf5);
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 70px;
+                font-size: 22px;
+                font-weight: 700;
+            }
+
+                .brand img {
+                    width: 38px;
+                }
+
+            .activation-info h1 {
+                font-size: 31px;
+                line-height: 1.25;
+                margin-bottom: 16px;
+            }
+
+            .activation-info p {
+                color: rgba(255,255,255,.82);
+                line-height: 1.7;
+            }
+
+            .security-box {
+                margin-top: 35px;
+                padding: 18px;
+                border-radius: 14px;
+                background: rgba(255,255,255,.12);
+            }
+
+                .security-box strong {
+                    display: block;
+                    margin-bottom: 5px;
+                }
+
+                .security-box span {
+                    font-size: 13px;
+                    color: rgba(255,255,255,.75);
+                }
+
+            /* SAĞ */
+            .activation-form {
+                padding: 55px 65px;
+                display: flex;
+                align-items: center;
+            }
+
+            .form-content {
+                width: 100%;
+                max-width: 400px;
+                margin: auto;
+                text-align: center;
+            }
+
+            .code-icon {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 16px;
+                background: #f4e8ff;
+                color: #974ee9;
+                font-size: 26px;
+            }
+
+            .form-content h2 {
+                color: #29263d;
+                font-size: 27px;
+                margin-bottom: 8px;
+            }
+
+            .description {
+                color: #9290a1;
+                font-size: 14px;
+                line-height: 1.6;
+                margin-bottom: 28px;
+            }
+
+            .code-input {
+                width: 100%;
+                height: 58px;
+                border: 1px solid #e8e5ef;
+                border-radius: 11px;
+                text-align: center;
+                font-size: 23px;
+                letter-spacing: 8px;
+                outline: none;
+                transition: .2s;
+            }
+
+                .code-input:focus {
+                    border-color: #b45ce9;
+                    box-shadow: 0 0 0 3px rgba(180,92,233,.1);
+                }
+
+            .verify-btn {
+                width: 100%;
+                height: 50px;
+                margin-top: 20px;
+                border: 0;
+                border-radius: 10px;
+                color: #fff;
+                font-weight: 600;
+                background: linear-gradient(90deg,#e83ec9,#9859ef);
+            }
+
+                .verify-btn:hover {
+                    box-shadow: 0 8px 20px rgba(178,76,220,.2);
+                }
+
+            .email-info {
+                margin-top: 20px;
+                color: #9290a1;
+                font-size: 13px;
+            }
+
+                .email-info strong {
+                    color: #5c5870;
+                }
+
+            .validation {
+                margin-bottom: 15px;
+            }
+
+            @@media (max-width: 768px) {
+                .activation-card {
+                    grid-template-columns: 1fr;
+                }
+
+                .activation-info {
+                    padding: 35px;
+                }
+
+                .brand {
+                    margin-bottom: 35px;
+                }
+
+                .activation-form {
+                    padding: 40px 25px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="activation-page">
+
+        <div class="activation-card">
+
+            <!-- SOL -->
+            <section class="activation-info">
+
+                <div class="brand">
+                    <img src="~/mendy-admin/package/assets/images/logo-icon.png"
+                         alt="Rose Mail" />
+
+                    <span>Rose Mail</span>
+                </div>
+
+                <h1>E-posta adresinizi doğrulayın.</h1>
+
+                <p>
+                    Hesabınızın güvenliğini sağlamak için
+                    e-posta adresinize gönderdiğimiz doğrulama
+                    kodunu girmeniz gerekiyor.
+                </p>
+
+                <div class="security-box">
+                    <strong>🔒 Hesabınız güvende</strong>
+
+                    <span>
+                        Doğrulama işlemi tamamlandıktan sonra
+                        Rose Mail hesabınızı kullanmaya başlayabilirsiniz.
+                    </span>
+                </div>
+
+            </section>
+
+
+            <!-- SAĞ -->
+            <section class="activation-form">
+
+                <div class="form-content">
+
+                    <div class="code-icon">
+                        ✉
+                    </div>
+
+                    <h2>Aktivasyon Kodunuz</h2>
+
+                    <p class="description">
+                        E-posta adresinize gönderilen
+                        6 haneli doğrulama kodunu aşağıya girin.
+                    </p>
+
+                    <form method="post"
+                          asp-action="UserActivation"
+                          asp-controller="Activation">
+
+                        <input type="hidden"
+                               asp-for="Email" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger validation">
+                        </div>
+
+                        <input asp-for="confirmCode"
+                               class="code-input"
+                               type="text"
+                               inputmode="numeric"
+                               maxlength="6"
+                               autocomplete="one-time-code"
+                               placeholder="000000" />
+
+                        <span asp-validation-for="confirmCode"
+                              class="text-danger d-block mt-2">
+                        </span>
+
+                        <button type="submit"
+                                class="verify-btn">
+                            Hesabı Doğrula
+                        </button>
+
+                    </form>
+
+                    <div class="email-info">
+                        Kod şu adrese gönderildi:
+                        <strong>@Model.Email</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
